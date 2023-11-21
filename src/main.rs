@@ -1,4 +1,5 @@
 mod config;
+mod vault;
 pub mod tests;
 use std::{env::{self, ArgsOs}, ffi::OsString, fs::File, io::{self},};
 use config::FileChecker;
@@ -48,8 +49,9 @@ fn check_and_fix_required_files() {
         }
     }
 
-    if FileChecker::is_empty("key.txt"){
+    if FileChecker::is_empty("key.txt"){    
         println!("Key file appears to be missing, or is empty.");
+        vault::key::create_master_password();
     }
 }
 
