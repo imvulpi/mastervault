@@ -1,7 +1,0 @@
-hash_length=32
-memory=32768
-iterations=6
-algorithm=argon2id
-parallelism=1
-email=email@email.com
-username=proew123sd
