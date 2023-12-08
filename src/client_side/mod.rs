@@ -1,3 +1,12 @@
 pub mod general;
 pub mod config;
 pub mod key;
+pub mod add;
+pub mod get;
+pub mod update;
+pub mod search;
+pub mod list;
+pub mod delete;
+pub mod change_master;
+pub mod help;
+pub mod argument_redirector;

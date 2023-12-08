@@ -1,5 +1,4 @@
 use argon2::{Params, Algorithm};
-
 use crate::{commons::{self, cli::user_input::get_user_input_persistent, fields::{traits::validation_error::ValidationError, structs::errors::general::GeneralValidationErrors}}, vault::{config::{get_config_from_file, get_algorithm_from_config, get_params_from_config}, key::{generate_hash_password, complexity::check_password_complexity}}, constants::{general::strings::{ERROR_OCCURRED, ERROR_MESSAGE_MARKER, TRY_AGAIN, ENTER_MASTER_PASSWORD, SUCCESSFUL_MARKER, PASSWORD_NOT_STRONG, MASTER_PASSWORD_REMINDER}, defaults::negative_responses}, client_side::config::repairment::error_handler};
 
 pub fn user_create_master_password(current_try: u8, max_tries: u8){

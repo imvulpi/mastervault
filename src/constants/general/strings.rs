@@ -3,6 +3,7 @@ pub const ERROR_OCCURRED: &str = "Oops, an error occurred";
 pub const USE_DEFAULT: &str = "send 'n' to use default";
 pub const TRY_AGAIN: &str = "try again";
 
+// Markers:
 pub const ERROR_MESSAGE_MARKER: &str = "Error message";
 pub const SUCCESSFUL_MARKER: &str = "Success";
 pub const ENTER_MARKER: &str = "Enter";
@@ -19,7 +20,7 @@ pub const CREATING_VAULT_FILE: &str = "Creating vault file";
 pub const CREATED_CONFIG: &str = "Created config";
 pub const ENTER_MASTER_PASSWORD: &str = "Please enter a secure master password";
 
-// PasswordHashErrors
+// Password errors:
 pub const PASSWORD_TOO_SHORT: &str = "Too short";
 pub const PASSWORD_NOT_ENOUGH_SPECIAL: &str = "Not enough special characters";
 pub const PASSWORD_NOT_ENOUGH_LOWERCASE: &str = "Not enough lowercase characters";

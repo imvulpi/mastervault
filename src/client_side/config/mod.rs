@@ -1,7 +1,11 @@
-use crate::{commons::{fields::{traits::validatable::Validatable, structs::config::Config}, cli::user_input::get_user_input_persistent, file_ops::write::create_file_key_value}, constants::{config::defaults::{get_config_template, get_required_settings}, defaults::negative_responses, general::strings::{ENTER_MARKER, OR_MARKER, USE_DEFAULT, ENTER_YOUR_MARKER, REQUIRED_MARKER, ERROR_OCCURRED, TRY_AGAIN, ERROR_MESSAGE_MARKER, CREATED_CONFIG, SETTING_MARKER, OPTION_MARKER}}, vault::config::conversions::string_vector_from_config};
+use crate::{commons::{fields::{traits::validatable::Validatable, structs::config::Config}, cli::user_input::get_user_input_persistent, file_ops::write::create_file_key_value}, constants::{config::defaults::{get_config_template, get_required_settings}, defaults::negative_responses, general::{strings::{ENTER_MARKER, OR_MARKER, USE_DEFAULT, ENTER_YOUR_MARKER, REQUIRED_MARKER, ERROR_OCCURRED, TRY_AGAIN, ERROR_MESSAGE_MARKER, CREATED_CONFIG, SETTING_MARKER, OPTION_MARKER}, placeholders::NOT_IMPLEMENTED}}, vault::config::conversions::string_vector_from_config};
 pub mod repairment;
 
-/// .
+
+pub fn handle_config_subcommand(arguments: Vec<String>){
+    println!("{}", NOT_IMPLEMENTED);
+}
+
 pub fn user_create_config_file(){
     let configuration = user_get_config_data();
 
