@@ -1,21 +1,26 @@
-Translating using translate.py
-You might use this tool but it's unnecesary as there is an easier way which I will describe later.
+This is a directory where all translations are put into.
 
-Old way:
 
-1. You would add a language via "add_lang"
-2. translate [language] [file] and go through all the texts translating them.
-This has many issues, I encourage the new way
+1. Adding a language:
+Create your own directory for language that interests you
 
-NEW METHOD:
+Please name the directory (ISO 3 letter language code)_(name of that language)
+ex. pol_polish
 
-Now there is an easier way.
-You DON'T need sqlite3, but you can install it if you want to turn the file into a database.
+the 2nd (name of that language can be in that language or english up to your liking)
+ex. pol_polski
+ex. pol_polish
+ex. pol_polish_polski
+ex. pol_polski_polish
 
-1. Simply take the .sql file from src/ or template/ (prefer the 2nd)
-	[!!!] Also read the help-translations from translations directory.
-2. Move it into language you wanna translate in translations/ directory
-3. Translate the texts where there is 'text here', don't change other values like ids,
+Dont make the names too big, make sure the 3 letter code is first.
+
+2. Translation:
+
+Copy directory of a version that you want to translate from inside template directory
+Translate .sql files according to the tutorial below:
+
+Now Translating
 INFO: don't translate texts inside a block CREATE TABLE, you should translate texts inside lines with INSERT INTO ...
 
 example:

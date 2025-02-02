@@ -1,0 +1,6 @@
+When you build the application the database itself doesn't move to the location of where the executable was created.
+
+This is just a information that you should move the constant_data.db into the location where the exe is.
+If you dont have constant_data.db you need to make it from constant_data.sql.
+
+Take care.
