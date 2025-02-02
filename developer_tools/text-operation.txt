@@ -1,0 +1,63 @@
+This concerns script: text_operations.py
+
+Text operations is a script which allows for adding/deleting a value in an enum and database.
+
+Lets say you would want to add a new string into db_strings, you can use command:
+ new db_strings.rs DontMarker "Don't do it!"
+and that will create a value in an enum named DontMarker + it will add the string "Don't do it!" into the database
+
+More about that in commands section of the program
+
+---
+
+Adding a new enum / table:
+- Need sqlite3 or other program to operate on .sql and .db files
+
+1. Create a rust enum file somewhere in the src/
+2. In rust implement your enum class
+3. Implement your enum in the string_mapper.py functions.
+4. Add the table and columns inside the database
+5. Done
+
+Example:
+
+1. Creating: example_strings.rs
+2. I Implement the enum class
+
+impl DatabaseExamples {
+    pub fn text(self) -> String { // self is the enum here 
+        match get(self.into(), "example", "example_strings"){ // id, column, table
+            Ok(data) => {
+                return data;
+            },
+            Err(error) => {
+                return format!("Database Access Error\nDetailed: {}", error);
+            },
+        }
+    }
+}
+
+Now ID is taken from the enum, the database is mapped in a way the enum is ordered. That's why it should not be manually changed.
+
+3. Implement my enum in string_mapper.py
+
+get_appropriate_column:
+	case "db_example" | "examples.rs" | "example" | "examples": // Those are alternative names you wanna support.
+            return ("examples", "example_strings")
+get_enum_file_name
+// here alternative names too :D
+
+4. 
+I run: sqlite3 constant_data.db > schema.sql # (or other name)
+
+I add the text below insite the schema.sql:
+CREATE TABLE IF NOT EXISTS "example" (
+	"id"	INTEGER,
+	"example_strings"	TEXT,
+	PRIMARY KEY("id")
+);
+
+I run: sqlite3 constant_data.db < schema.sql 
+
+5. Done, now I can use text-operations with my new table and enum!
+

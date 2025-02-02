@@ -21,7 +21,7 @@ def new(arguments: list[str]):
     if created is True:
         try:
             database_add(DATABASE_ADDRESS + DB_NAME, string_content, table, column)
-        except OperationalError as e:
+        except Exception as e:
             print("Error: ",e,"\n Deleting created enum...")
             remove_enum(enum_variant_name, enum_file_address)
             sys.exit()
@@ -50,7 +50,8 @@ def handle_new_arguments(arguments: list[str]):
         enum_file = get_enum_file_name(arguments[0])
         (table, column) = get_appropriate_column(enum_file)
     except MappingError as e:
-        print(e)
+        print(f"Enum file name: {arguments[0]}")
+        print(e.value)
         sys.exit()
     
     enum_file_address = ENUMS_ADDRESS + enum_file
@@ -89,7 +90,7 @@ def new_custom(arguments):
     new_enum(enum_variant_name, enum_file_address)
     try:
         database_add(DATABASE_ADDRESS + DB_NAME, string_content, table, column)
-    except OperationalError as e:
+    except Exception as e:
         print("Error: ",e,"\n Deleting created enum...")
         remove_enum(enum_variant_name, enum_file_address)
 

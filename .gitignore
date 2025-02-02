@@ -17,3 +17,6 @@ Cargo.lock
 # Ignore Python bytecode files
 *.pyc
 __pycache__/
+
+# Ignore .db files (create a .sql for that using sqlite3)
+*.db
