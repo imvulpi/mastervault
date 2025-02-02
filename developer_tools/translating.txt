@@ -1,0 +1,44 @@
+Translating using translate.py
+You might use this tool but it's unnecesary as there is an easier way which I will describe later.
+
+Old way:
+
+1. You would add a language via "add_lang"
+2. translate [language] [file] and go through all the texts translating them.
+This has many issues, I encourage the new way
+
+NEW METHOD:
+
+Now there is an easier way.
+You DON'T need sqlite3, but you can install it if you want to turn the file into a database.
+
+1. Simply take the .sql file from src/
+2. Move it into language you wanna translate in translations/ directory
+3. Translate the texts where there is 'text here', don't change other values like ids,
+INFO: don't translate texts inside a block CREATE TABLE, you should translate texts inside lines with INSERT INTO ...
+
+example:
+lets take this text:
+ INSERT INTO other_translations VALUES(0,'username','Too short');
+after translation:
+ INSERT INTO other_translations VALUES(0,'nazwa uzytkownika','za mala');
+
+where to not translate:
+
+DONT translate anything inside blocks like that below \/
+These are used by the program :D
+
+CREATE TABLE IF NOT EXISTS "other_translations" (
+	"id"	INTEGER,
+	"setting"	TEXT,
+	"error"	TEXT,
+	PRIMARY KEY("id")
+);
+
+Advantages of this method:
+
+1. For developers - no need to develop and maintain translate.py tool
+2. For translators - Easy way to see what was translated and what not.
+3. For translators - Allows translation from other languages too
+4. Easy way to check the texts, turn them into a sqlite database.
+

@@ -8,5 +8,8 @@ def translation_help():
         "validate [language]\n{0}desc. Validates if criteria are met.".format(space),
         "check [language] [optional: file]\n{0}desc. Checks completion of language and lines in a file".format(space),
     ]
+
+    print("----------------\nDEPRECATED - NEW METHOD HIGHLY ENCOURAGED!\nCheck translating.txt!\n----------------\n")
     for subcommand in subcommands:
         print(subcommand + "\n")
+    print("----------------\nDEPRECATED - NEW METHOD HIGHLY ENCOURAGED!\nCheck translating.txt!\n----------------\n")
