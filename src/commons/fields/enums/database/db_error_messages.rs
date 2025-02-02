@@ -6,6 +6,7 @@ use crate::vault::database::get;
 /// 
 /// Example: `PasswordNotEnoughSpecial` will have an id of 1
 /// 
+/// Unless you know what you are doing:
 /// DO NOT change these texts manually! (use text_operations.py in developer tools)
 pub enum DatabaseErrors {
     PasswordTooShort,

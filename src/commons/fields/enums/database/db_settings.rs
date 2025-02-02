@@ -4,7 +4,8 @@ use crate::vault::database::get;
 /// 
 /// Example: `Email` will have an id of 1
 /// 
-/// /// DO NOT change these texts manually! (use text_operations.py in developer tools)
+/// Unless you know what you are doing:
+/// DO NOT change these texts manually! (use text_operations.py in developer tools)
 pub enum DatabaseSettings {
     Username,
     Email,

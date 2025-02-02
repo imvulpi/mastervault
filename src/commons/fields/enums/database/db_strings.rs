@@ -3,7 +3,8 @@ use crate::vault::database::get;
 /// The ids of `DatabaseStrings` must be kept the same as the ids in the database.
 /// 
 /// Example: `CreatedConfig` will have an id of 1
-/// 
+///
+/// Unless you know what you are doing:
 /// DO NOT change these texts manually! (use text_operations.py in developer tools)
 pub enum DatabaseStrings {
     ConfigEmptyOrMissing,

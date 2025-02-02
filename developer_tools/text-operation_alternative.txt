@@ -1,0 +1,10 @@
+Alternative of text-operations.py is to manually create the database entries,
+This can be VERY useful.
+
+1. You add your sql and values into the .sql file in /src
+2. Adding new tables is also pretty easy, you just create your enum implement it, and add it into .sql
+3. insterting via .sql is also how you can add values.
+
+Your enum value should folow the IDS inside the database, so if your enum value is 3 then that enum value text should be in id 3 in the database.
+
+If you follow these rules it's easy to create safely create new values or edit texts.
