@@ -1,6 +1,6 @@
 use std::io::Error;
 
-use crate::{commons::fields::traits::validation_error::ValidationError, constants::general::strings::{GENERAL_PARSING_FAILED, GENERAL_SETTING_NOT_FOUND, GENERAL_U32_CONVERSION_FAILED, GENERAL_VALIDATION_FAILED, GENERAL_IS_INVALID, GENERAL_OS_ERROR}};
+use crate::commons::fields::{traits::validation_error::ValidationError, enums::database::db_error_messages::DatabaseErrors::{GeneralIsInvalid, GeneralOsError, GeneralParsingFailed, GeneralSettingNotFound, GeneralU32ConversionFailed, GeneralValidationFailed}};
 
 pub enum GeneralValidationErrors {
     ParsingFailed,
@@ -12,14 +12,14 @@ pub enum GeneralValidationErrors {
 }
 
 impl ValidationError for GeneralValidationErrors{
-    fn description(&self) -> &'static str {
+    fn description(&self) -> String {
         match self {
-            GeneralValidationErrors::ParsingFailed => GENERAL_PARSING_FAILED,
-            GeneralValidationErrors::SettingNotFound => GENERAL_SETTING_NOT_FOUND,
-            GeneralValidationErrors::U32ConversionFailed => GENERAL_U32_CONVERSION_FAILED,
-            GeneralValidationErrors::ValidationFailed => GENERAL_VALIDATION_FAILED,
-            GeneralValidationErrors::IsInvalid => GENERAL_IS_INVALID,
-            GeneralValidationErrors::OsError(_) => GENERAL_OS_ERROR,
+            GeneralValidationErrors::ParsingFailed => GeneralParsingFailed.text(),
+            GeneralValidationErrors::SettingNotFound => GeneralSettingNotFound.text(),
+            GeneralValidationErrors::U32ConversionFailed => GeneralU32ConversionFailed.text(),
+            GeneralValidationErrors::ValidationFailed => GeneralValidationFailed.text(),
+            GeneralValidationErrors::IsInvalid => GeneralIsInvalid.text(),
+            GeneralValidationErrors::OsError(_) => GeneralOsError.text(),
         }
     }
 }

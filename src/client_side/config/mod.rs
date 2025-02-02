@@ -1,4 +1,4 @@
-use crate::{commons::{fields::{traits::validatable::Validatable, structs::config::Config}, cli::user_input::get_user_input_persistent, file_ops::write::create_file_key_value}, constants::{config::defaults::{get_config_template, get_required_settings}, defaults::negative_responses, general::{strings::{ENTER_MARKER, OR_MARKER, USE_DEFAULT, ENTER_YOUR_MARKER, REQUIRED_MARKER, ERROR_OCCURRED, TRY_AGAIN, ERROR_MESSAGE_MARKER, CREATED_CONFIG, SETTING_MARKER, OPTION_MARKER}, placeholders::NOT_IMPLEMENTED}}, vault::config::conversions::string_vector_from_config};
+use crate::{commons::{fields::{traits::validatable::Validatable, structs::config::Config, enums::database::db_strings::DatabaseStrings::{CreatedConfig, ErrorOccurred, TryAgain, ErrorMessageMarker, EnterMarker, YourMarker, OrMarker, UseDefault, RequiredMarker, SettingMarker, OptionMarker}}, cli::user_input::get_user_input_persistent, file_ops::write::create_file_key_value}, constants::{config::defaults::{get_config_template, get_required_settings, translate_setting}, defaults::negative_responses, general::placeholders::NOT_IMPLEMENTED}, vault::config::conversions::string_vector_from_config};
 pub mod repairment;
 
 
@@ -9,14 +9,14 @@ pub fn handle_config_subcommand(arguments: Vec<String>){
 pub fn user_create_config_file(){
     let configuration = user_get_config_data();
 
-    println!("\n{}\n", CREATED_CONFIG);
+    println!("\n{}\n", CreatedConfig.text());
     display_config(&configuration.config);
 
     let string_vector = string_vector_from_config(configuration);
     match create_file_key_value(string_vector, "config.txt"){
         Ok(_) => {},
         Err(e) =>{
-            println!("{} - {}\n{}: {}", ERROR_OCCURRED, TRY_AGAIN, ERROR_MESSAGE_MARKER, e);
+            println!("{} - {}\n{}: {}", ErrorOccurred.text(), TryAgain.text(), ErrorMessageMarker.text(), e);
         }
     }
     println!();
@@ -29,9 +29,9 @@ fn user_get_config_data() -> Config{
         let mut is_validated = false;
         while !is_validated {
             if !required_values.contains(&setting){
-                println!("\n{}: {} {} {} {}", ENTER_MARKER, setting, OR_MARKER, USE_DEFAULT, option.get_raw_value());
+                println!("\n{} {}: {} {} {} {}", EnterMarker.text(), YourMarker.text(), translate_setting(setting), OrMarker.text(), UseDefault.text(), option.get_raw_value());
             }else{
-                println!("\n{}: {} - [{}]", ENTER_YOUR_MARKER, setting, REQUIRED_MARKER);
+                println!("\n{} {}: {} - [{}]", EnterMarker.text(), YourMarker.text(), translate_setting(setting), RequiredMarker.text());
             }
 
             let original_option = option.get_raw_value().to_owned();
@@ -44,7 +44,7 @@ fn user_get_config_data() -> Config{
                         is_validated = true;
                     }
                     false => {
-                        println!("{} - {}\n{}: {}", ERROR_OCCURRED, TRY_AGAIN, ERROR_MESSAGE_MARKER, err.unwrap().description());
+                        println!("{} - {}\n{}: {}", ErrorOccurred.text(), TryAgain.text(), ErrorMessageMarker.text(), err.unwrap().description());
                         option.put_value(original_option);
                     }
                 }
@@ -59,6 +59,6 @@ fn user_get_config_data() -> Config{
 
 fn display_config(config: &Vec<(&str, Box<dyn Validatable>)>){
     for (setting, option) in config {
-        println!("{} - {} | {} - {}", SETTING_MARKER, setting, OPTION_MARKER, option.get_raw_value());
+        println!("{} - {} | {} - {}", SettingMarker.text(), setting, OptionMarker.text(), option.get_raw_value());
     }
 }

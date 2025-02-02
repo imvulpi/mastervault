@@ -1,26 +1,27 @@
 use std::fs::File;
-use crate::{commons::file_ops::controller::FileChecker, client_side::{self, key::user_create_master_password}, constants::general::{strings::{CONFIG_EMPTY_OR_MISSING, CREATING_VAULT_FILE, ERROR_OCCURRED, ERROR_MESSAGE_MARKER, SUCCESSFUL_MARKER, KEY_EMPTY_OR_MISSING}, values::MAX_TRIES}};
+use crate::{commons::{file_ops::controller::FileChecker, fields::enums::database::db_strings::DatabaseStrings::{ConfigEmptyOrMissing, CreatingVaultFile, SuccessfulMarker, ErrorOccurred, ErrorMessageMarker, KeyEmptyOrMissing}}, client_side::{self, key::user_create_master_password}, constants::general::values::MAX_TRIES};
 
 pub fn check_and_fix_required_files() {
     if FileChecker::is_empty("config.txt") {
-        println!("{}:", CONFIG_EMPTY_OR_MISSING);
+        println!("{}:", ConfigEmptyOrMissing.text());
         client_side::config::user_create_config_file();
     }
 
     if !FileChecker::file_exists("vault.json"){
-        println!("{}", CREATING_VAULT_FILE);
+        println!("{}", CreatingVaultFile.text());
         match File::create("vault.json") {
             Ok(_) => {
-                println!("{}!", SUCCESSFUL_MARKER);
+                println!("{}!", SuccessfulMarker.text());
             },
             Err(error) => {
-                println!("{} {} {}", ERROR_OCCURRED, ERROR_MESSAGE_MARKER, error);
+                println!("{} {} {}", ErrorOccurred.text(), ErrorMessageMarker.text(), error);
             }
         }
     }
 
-    if FileChecker::is_empty("key.txt"){    
-        println!("{}", KEY_EMPTY_OR_MISSING);
+    if FileChecker::is_empty("key.txt"){
+            
+        println!("{}", KeyEmptyOrMissing.text());
         user_create_master_password(0, MAX_TRIES);
     }
 }

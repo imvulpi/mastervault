@@ -1,5 +1,5 @@
 use argon2::{Params, Algorithm};
-use crate::{commons::{self, cli::user_input::get_user_input_persistent, fields::{traits::validation_error::ValidationError, structs::errors::general::GeneralValidationErrors}}, vault::{config::{get_config_from_file, get_algorithm_from_config, get_params_from_config}, key::{generate_hash_password, complexity::check_password_complexity}}, constants::{general::strings::{ERROR_OCCURRED, ERROR_MESSAGE_MARKER, TRY_AGAIN, ENTER_MASTER_PASSWORD, SUCCESSFUL_MARKER, PASSWORD_NOT_STRONG, MASTER_PASSWORD_REMINDER}, defaults::negative_responses}, client_side::config::repairment::error_handler};
+use crate::{commons::{self, cli::user_input::get_user_input_persistent, fields::{traits::validation_error::ValidationError, structs::errors::general::GeneralValidationErrors, enums::database::{db_strings::DatabaseStrings::{ErrorOccurred, ErrorMessageMarker, EnterMasterPassword, SuccessfulMarker, TryAgain, MasterPasswordReminder}, db_error_messages::DatabaseErrors::PasswordNotStrong}}}, vault::{config::{get_config_from_file, get_algorithm_from_config, get_params_from_config}, key::{generate_hash_password, complexity::check_password_complexity}}, constants::defaults::negative_responses, client_side::config::repairment::error_handler};
 
 pub fn user_create_master_password(current_try: u8, max_tries: u8){
     let password = handle_getting_password();
@@ -27,7 +27,7 @@ pub fn user_create_master_password(current_try: u8, max_tries: u8){
         }
 
         Err(error) => {
-            println!("{}\n{}: {}",ERROR_OCCURRED, ERROR_MESSAGE_MARKER, error.description());
+            println!("{}\n{}: {}", ErrorOccurred.text(), ErrorMessageMarker.text(), error.description());
             error_handler(&error)
         }
     }  
@@ -37,14 +37,14 @@ fn handle_getting_password() -> String{
     let mut is_good_password = false;
     let mut password = String::new();
     while !is_good_password{
-        println!("{}", ENTER_MASTER_PASSWORD);
+        println!("{}", EnterMasterPassword.text());
         password = get_user_input_persistent();
         match check_password_complexity(&password){
             Ok(_) => {
                 is_good_password = true;
             },
             Err(error) => {
-                println!("{}: {}", PASSWORD_NOT_STRONG, error)
+                println!("{}: {}", PasswordNotStrong.text(), error)
             },
         }
     }
@@ -72,17 +72,17 @@ fn handle_password_hashing(input: String, params: Params, algorithm: Algorithm){
 fn handle_succesful_password_hashing(data: Vec<(String, String)>){
     match commons::file_ops::write::create_file_key_value(data, "key.txt"){
         Ok(_) => {
-            println!("{}!", SUCCESSFUL_MARKER);
-            println!("\n{}", MASTER_PASSWORD_REMINDER);
+            println!("{}!", SuccessfulMarker.text());
+            println!("\n{}", MasterPasswordReminder.text());
         },
         Err(err) => {
-            println!("{} - {}\n{}: {}", ERROR_OCCURRED, TRY_AGAIN, ERROR_MESSAGE_MARKER, err);
+            println!("{} - {}\n{}: {}", ErrorOccurred.text(), TryAgain.text(), ErrorMessageMarker.text(), err);
             error_handler(&GeneralValidationErrors::OsError(err));
         }
     }
 }
 
 fn handle_unsuccesful_password_hashing(error: GeneralValidationErrors){
-    println!("{}\n{}: {}", ERROR_OCCURRED, ERROR_MESSAGE_MARKER, error.description());
+    println!("{}\n{}: {}", ErrorOccurred.text(), ErrorMessageMarker.text(), error.description());
     error_handler(&GeneralValidationErrors::IsInvalid);
 }

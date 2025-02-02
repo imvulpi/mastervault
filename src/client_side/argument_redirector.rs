@@ -5,6 +5,7 @@ use super::{help::handle_help_subcommand, add::handle_add_subcommand, config::ha
 pub fn identify_function_from_arguments(arguments_array: &mut Vec<String>){
     let argument = arguments_array.remove(1);
     println!("argument: {}", argument);
+
     match argument.as_str(){
         SUBCOMMAND_HELP => {handle_help_subcommand(arguments_array.to_vec())}
         SUBCOMMAND_ADD => {handle_add_subcommand(arguments_array.to_vec())}
@@ -16,8 +17,7 @@ pub fn identify_function_from_arguments(arguments_array: &mut Vec<String>){
         SUBCOMMAND_SEARCH => {handle_search_subcommand(arguments_array.to_vec())}
         SUBCOMMAND_CHANGE_MASTER => {handle_change_master_subcommand(arguments_array.to_vec())}
         _ => {
-
+            handle_help_subcommand(arguments_array.to_vec());
         }
     }
 }
-

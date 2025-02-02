@@ -1,4 +1,4 @@
 pub trait ValidationError {
-    fn description(&self) -> &'static str;
+    fn description(&self) -> String;
 }
 
