@@ -1,11 +1,11 @@
 use rusqlite::{params, Connection, Result};
 
-use crate::constants::defaults::DATABASE_NAME;
+use crate::constants::defaults::TEXT_DATABASE_NAME;
+pub mod vault;
 
 pub fn get(id: u32, column: &str, table: &str) -> Result<String, rusqlite::Error>{
-    match Connection::open(DATABASE_NAME){
+    match Connection::open(TEXT_DATABASE_NAME){
         Ok(connection) => {
-            //connection.execute("INSERT INTO main DEFAULT VALUES;", [])?;
             let data = connection.query_row(
                 format!("SELECT {} FROM {} WHERE id = ?1", column, table).as_str(),
                 params![id],

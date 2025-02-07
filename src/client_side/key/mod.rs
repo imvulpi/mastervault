@@ -1,9 +1,11 @@
+use std::error::Error;
+
 use argon2::{Params, Algorithm};
-use crate::{commons::{self, cli::user_input::get_user_input_persistent, fields::{traits::validation_error::ValidationError, structs::errors::general::GeneralValidationErrors, enums::database::{db_strings::DatabaseStrings::{ErrorOccurred, ErrorMessageMarker, EnterMasterPassword, SuccessfulMarker, TryAgain, MasterPasswordReminder}, db_error_messages::DatabaseErrors::PasswordNotStrong}}}, vault::{config::{get_config_from_file, get_algorithm_from_config, get_params_from_config}, key::{generate_hash_password, complexity::check_password_complexity}}, constants::defaults::negative_responses, client_side::config::repairment::error_handler};
+use crate::{client_side::config::repairment::error_handler, commons::{self, cli::user_input::get_user_input_persistent, fields::{enums::database::{db_error_messages::DatabaseErrors::PasswordNotStrong, db_strings::DatabaseStrings::{EnterMasterPassword, ErrorMessageMarker, ErrorOccurred, MasterPasswordReminder, SuccessfulMarker, TryAgain}}, structs::errors::general::GeneralValidationErrors, traits::validation_error::ValidationError}}, constants::{database::VAULT_DB_NAME, defaults::negative_responses}, vault::{config::{get_algorithm_from_config, get_config_from_file, get_params_from_config}, key::{complexity::check_password_complexity, generate_hash_password, master_key::MasterKey}}};
 
 pub fn user_create_master_password(current_try: u8, max_tries: u8){
     let password = handle_getting_password();
-    match get_config_from_file("config.txt"){    
+    match get_config_from_file("config.txt"){  // REPLACE TO CONST
         Ok(config) =>{
             let algorithm = match get_algorithm_from_config(&config){
                 Ok(algorithm) => {
@@ -64,22 +66,30 @@ fn handle_error_and_retry(error: GeneralValidationErrors, current_try: u8, max_t
 
 fn handle_password_hashing(input: String, params: Params, algorithm: Algorithm){
     match generate_hash_password(input, params, algorithm) {
-        Ok(data) => {handle_succesful_password_hashing(data)}
+        Ok(data) => {handle_succesful_password_hashing(data);}
         Err(_) => {handle_unsuccesful_password_hashing(GeneralValidationErrors::IsInvalid)}
     }
 }
 
-fn handle_succesful_password_hashing(data: Vec<(String, String)>){
-    match commons::file_ops::write::create_file_key_value(data, "key.txt"){
+fn handle_succesful_password_hashing(data: Vec<(String, String)>) -> Result<(), ()>{
+    let password = &data.get(0).unwrap().1;
+    let salt = &data.get(1).unwrap().1;
+
+    let mk = MasterKey{
+        id: 0,
+        password: password.to_string(),
+        salt: salt.to_string(),
+    };
+    match commons::file_ops::write::create_db_key_value(&mk, VAULT_DB_NAME){
         Ok(_) => {
             println!("{}!", SuccessfulMarker.text());
             println!("\n{}", MasterPasswordReminder.text());
         },
         Err(err) => {
             println!("{} - {}\n{}: {}", ErrorOccurred.text(), TryAgain.text(), ErrorMessageMarker.text(), err);
-            error_handler(&GeneralValidationErrors::OsError(err));
         }
     }
+    Ok(())
 }
 
 fn handle_unsuccesful_password_hashing(error: GeneralValidationErrors){
